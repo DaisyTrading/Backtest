@@ -33,7 +33,7 @@ cd tools
 ```
 
 
-install pyfolio, tqdm
+install pyfolio, tqdm, pyarrow
 ```
 pip install tqdm
 pip install git+https://github.com/stefan-jansen/pyfolio-reloaded.git
