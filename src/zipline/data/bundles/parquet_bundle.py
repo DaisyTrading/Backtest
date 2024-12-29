@@ -142,9 +142,9 @@ def parquet_bundle(
 
     divs_splits["divs"]["sid"] = divs_splits["divs"]["sid"].astype(int)
     divs_splits["splits"]["sid"] = divs_splits["splits"]["sid"].astype(int)
-    adjustment_writer.write(
-        splits=divs_splits["splits"], dividends=divs_splits["divs"]
-    )
+
+    # ignore dividend and split
+    adjustment_writer.write()
 
 
 def _pricing_iter(parquet_dir, symbols, metadata, divs_splits, show_progress, start_session, end_session, calendar):
@@ -170,13 +170,6 @@ def _pricing_iter(parquet_dir, symbols, metadata, divs_splits, show_progress, st
 
             # 对 DataFrame 重新索引，以确保所有交易日都在
             dfr = dfr.reindex(all_sessions_in_calendar, method=None)
-            missing_ratio = dfr.isnull().mean().mean()
-            if missing_ratio > 0:
-                continue
-
-            # if missing_ratio > 0:
-            #     dfr.ffill(inplace=True)
-            #     dfr.bfill(inplace=True)
 
             start_date = dfr.index[0]
             end_date = dfr.index[-1]
